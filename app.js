@@ -96,6 +96,11 @@ app.use(passport.session());
 /* HOME */
 app.get("/", homeController.getHome);
 
+// ✅ DEBUG 404 CATCH-ALL
+app.use((req, res, next) => {
+   res.status(404).send(`[DEBUG 404] Method: ${req.method} | OriginalUrl: ${req.originalUrl} | Url: ${req.url} | Path: ${req.path}`);
+});
+
 /* ===============================
    SERVER / VERCEL EXPORT
 ================================ */
