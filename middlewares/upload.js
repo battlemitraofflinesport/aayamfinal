@@ -4,7 +4,7 @@ const fs = require("fs");
 
 // 🔴 ABSOLUTE ROOT PATH
 const ROOT_DIR = process.cwd();
-const uploadDir = path.join(ROOT_DIR, "uploads", "home");
+const uploadDir = process.env.VERCEL ? "/tmp" : path.join(ROOT_DIR, "uploads", "home");
 
 console.log("🔍 ROOT DIR:", ROOT_DIR);
 console.log("🔍 UPLOAD DIR:", uploadDir);

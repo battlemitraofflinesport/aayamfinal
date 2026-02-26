@@ -3,11 +3,15 @@ const path = require("path");
 const fs = require("fs");
 
 // Absolute path to uploads/team
-const uploadDir = path.join(__dirname, "../uploads/team");
+const uploadDir = process.env.VERCEL ? "/tmp" : path.join(__dirname, "../uploads/team");
 
 // Ensure directory exists
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
+try {
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+} catch (error) {
+  console.error("Vercel FS Error:", error.message);
 }
 
 // Storage configuration

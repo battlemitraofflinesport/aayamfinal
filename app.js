@@ -65,6 +65,7 @@ app.use((req, res, next) => {
 /* ===============================
    EJS + LAYOUT SETUP
 ================================ */
+app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(expressLayouts);
 app.set("layout", "layouts/main");
