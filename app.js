@@ -44,22 +44,22 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
    SESSION CONFIG
 ================================ */
 app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24, // 1 day
-    },
-  })
+   session({
+      secret: process.env.SESSION_SECRET,
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+         maxAge: 1000 * 60 * 60 * 24, // 1 day
+      },
+   })
 );
 
 /* ===============================
    GLOBAL USER (NAVBAR ACCESS)
 ================================ */
 app.use((req, res, next) => {
-  res.locals.user = req.session.user;
-  next();
+   res.locals.user = req.session.user;
+   next();
 });
 
 /* ===============================
@@ -96,9 +96,14 @@ app.use(passport.session());
 app.get("/", homeController.getHome);
 
 /* ===============================
-   SERVER
+   SERVER / VERCEL EXPORT
 ================================ */
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== "production") {
+   app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+   });
+}
+
+// Export for Vercel serverless functions
+module.exports = app;
