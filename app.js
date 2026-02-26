@@ -71,6 +71,12 @@ app.use(expressLayouts);
 app.set("layout", "layouts/main");
 
 /* ===============================
+   PASSPORT INIT (MUST BE BEFORE ROUTES)
+================================ */
+app.use(passport.initialize());
+app.use(passport.session());
+
+/* ===============================
    ROUTES
 ================================ */
 const authRoutes = require("./routes/authRoutes");
@@ -88,18 +94,10 @@ app.use(teamRoutes);
 app.use(eventRoutes);
 app.use(reachOutRoutes);
 app.use(adminRoutes);
-app.use(passport.initialize());
-app.use(passport.session());
-
 
 
 /* HOME */
 app.get("/", homeController.getHome);
-
-// ✅ DEBUG 404 CATCH-ALL
-app.use((req, res, next) => {
-   res.status(404).send(`[DEBUG 404] Method: ${req.method} | OriginalUrl: ${req.originalUrl} | Url: ${req.url} | Path: ${req.path}`);
-});
 
 /* ===============================
    SERVER / VERCEL EXPORT
