@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>INFERNO 3.0 | Esports Tournament</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: #0a0a0f;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    /* Glow Background */
+    body::before {
+      content: "";
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 20%, #ff003c33, transparent 60%);
+      z-index: -1;
+    }
+
+    /* HERO */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, #ff003c, #ff8a00);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      margin-top: 20px;
+      color: #ccc;
+    }
+
+    .date {
+      margin-top: 10px;
+      color: #ff003c;
+    }
+
+    .register-btn {
+      margin-top: 40px;
+      padding: 18px 50px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: linear-gradient(90deg, #ff003c, #ff8a00);
+      color: white;
+      box-shadow: 0 0 25px #ff003c88;
+      transition: 0.3s;
+    }
+
+    .register-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 40px #ff003c;
+    }
+
+    /* SECTION COMMON */
+    .section {
+      padding: 100px 20px;
+      text-align: center;
+    }
+
+    .section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 60px;
+    }
+
+    /* GAMES */
+    .game-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 60px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .game-card {
+      position: relative;
+      background: #111119;
+      padding: 80px 30px 40px 30px;
+      border-radius: 15px;
+      border: 1px solid #222;
+      text-align: center;
+      transition: 0.3s ease;
+      overflow: visible;
+    }
+
+    .game-card:hover {
+      transform: translateY(-10px);
+      border: 1px solid #ff003c;
+      box-shadow: 0 0 25px #ff003c55;
+    }
+
+    .game-img {
+      position: absolute;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .game-img img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 20px #ff003c55);
+    }
+
+    .game-content h3 {
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+    }
+
+    .game-content p {
+      font-size: 0.9rem;
+      color: #bbb;
+    }
+
+    /* LAST YEAR */
+    .highlight-wrapper {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 100px;
+    }
+
+    .highlight-card {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: #111119;
+      border-radius: 15px;
+      padding: 60px;
+      overflow: visible;
+      border: 1px solid #222;
+    }
+
+    .highlight-card.reverse {
+      flex-direction: row-reverse;
+    }
+
+    .highlight-image {
+      position: absolute;
+      left: -80px;
+      width: 350px;
+      height: 250px;
+    }
+
+    .highlight-card.reverse .highlight-image {
+      left: auto;
+      right: -80px;
+    }
+
+    .highlight-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 0 0 30px #ff003c55;
+    }
+
+    .highlight-content {
+      margin-left: 300px;
+    }
+
+    .highlight-card.reverse .highlight-content {
+      margin-left: 0;
+      margin-right: 300px;
+    }
+
+    .highlight-content h3 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      color: #ff003c;
+    }
+
+    .highlight-content p {
+      color: #ccc;
+      line-height: 1.6;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .highlight-card {
+        flex-direction: column;
+        padding: 40px;
+      }
+
+      .highlight-image {
+        position: static;
+        width: 100%;
+        height: 250px;
+        margin-bottom: 20px;
+      }
+
+      .highlight-content {
+        margin: 0;
+      }
+
+      .highlight-card.reverse {
+        flex-direction: column;
+      }
+    }
+
+    /* SPONSORS */
+    .sponsors-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 40px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .sponsor-card {
+      background: #111119;
+      padding: 40px 20px;
+      border-radius: 15px;
+      border: 1px solid #222;
+      text-align: center;
+      transition: 0.3s ease;
+    }
+
+    .sponsor-card:hover {
+      transform: translateY(-8px);
+      border: 1px solid #ff003c;
+      box-shadow: 0 0 25px #ff003c44;
+    }
+
+    .sponsor-card img {
+      width: 120px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 20px;
+      filter: grayscale(100%);
+      transition: 0.3s;
+    }
+
+    .sponsor-card:hover img {
+      filter: grayscale(0%);
+    }
+
+    .sponsor-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+
+    .sponsor-card p {
+      font-size: 0.9rem;
+      color: #bbb;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #050508;
+      padding: 40px 20px;
+      text-align: center;
+      color: #777;
+    }
+
+    .footer-links {
+      margin-bottom: 15px;
+    }
+
+    .footer-links a {
+      color: #ff003c;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+
+    @media(max-width:768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>INFERNO 3.0</h1>
+    <p>E-Gaming Tournament & Fund Raising Event</p>
+    <div class="date">9th & 10th March | Massive Prize Pools</div>
+
+    <button class="register-btn" onclick="window.location.href='Inferno-registration.html'">
+      REGISTER NOW
+    </button>
+  </section>
+
+  <!-- GAMES -->
+  <section class="section">
+    <h2>Featured Games</h2>
+
+    <div class="game-list">
+
+      <div class="game-card">
+        <div class="game-img">
+          <img src="images/bgmi.png" alt="BGMI">
+        </div>
+        <div class="game-content">
+          <h3>BGMI</h3>
+          <p>4 Player Squad Battle</p>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <div class="game-img">
+          <img src="images/freefire.png" alt="Free Fire">
+        </div>
+        <div class="game-content">
+          <h3>Free Fire</h3>
+          <p>4 Player Team Format</p>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <div class="game-img">
+          <img src="images/cod.png" alt="COD">
+        </div>
+        <div class="game-content">
+          <h3>COD</h3>
+          <p>5v5 Competitive</p>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <div class="game-img">
+          <img src="images/valorant.png" alt="Valorant">
+        </div>
+        <div class="game-content">
+          <h3>Valorant</h3>
+          <p>5v5 Tactical Shooter</p>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <div class="game-img">
+          <img src="images/fifa.png" alt="FIFA">
+        </div>
+        <div class="game-content">
+          <h3>FIFA</h3>
+          <p>1v1 Football Showdown</p>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <div class="game-img">
+          <img src="images/clash.png" alt="Clash Royale">
+        </div>
+        <div class="game-content">
+          <h3>Clash Royale</h3>
+          <p>Solo Strategy Battle</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Last Year Highlights</h2>
+
+    <div class="highlight-wrapper">
+
+      <div class="highlight-card">
+        <div class="highlight-image">
+          <img src="images/highlight1.jpg" alt="">
+        </div>
+        <div class="highlight-content">
+          <h3>500+ Participants</h3>
+          <p>
+            INFERNO 2.0 witnessed massive participation across multiple games
+            with high intensity matches and thrilling finals.
+          </p>
+        </div>
+      </div>
+
+      <div class="highlight-card reverse">
+        <div class="highlight-image">
+          <img src="images/highlight2.jpg" alt="">
+        </div>
+        <div class="highlight-content">
+          <h3>Electrifying Finals</h3>
+          <p>
+            Packed audience, insane clutch moments, and unforgettable
+            championship victories.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SPONSORS -->
+  <section class="section">
+    <h2>Our Partners & Sponsors</h2>
+
+    <div class="sponsors-container">
+
+      <div class="sponsor-card">
+        <img src="images/sponsor1.png" alt="Sponsor 1">
+        <h3>RedDragon Gaming</h3>
+        <p>Official Gaming Partner</p>
+      </div>
+
+      <div class="sponsor-card">
+        <img src="images/sponsor2.png" alt="Sponsor 2">
+        <h3>Elite Arena</h3>
+        <p>Venue Partner</p>
+      </div>
+
+      <div class="sponsor-card">
+        <img src="images/sponsor3.png" alt="Sponsor 3">
+        <h3>TechZone</h3>
+        <p>Technology Partner</p>
+      </div>
+
+      <div class="sponsor-card">
+        <img src="images/sponsor4.png" alt="Sponsor 4">
+        <h3>EnergyX</h3>
+        <p>Energy Drink Partner</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-links">
+      <a href="#">Rules</a>
+      <a href="https://wa.me/918128955352?text=Hello%20INFERNO%203.0%20Team%20🔥%0A%0AI%20want%20to%20register%20for%20the%20event.%0AGame:%20%0ATeam%20Name:%20%0ACollege:%20%0A%0APlease%20guide%20me."
+        target="_blank"> Contact </a>
+      <a href="https://www.instagram.com/uit_students_committee">Instagram</a>
+    </div>
+    <p>© 2026 INFERNO 3.0 | All Rights Reserved</p>
+  </footer>
+
+</body>
+
+</html>
